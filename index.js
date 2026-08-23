@@ -3,7 +3,15 @@ const app = express();
 const PORT = 3000;
 
 app.get('/', (req, res) => {
-    res.status(200).send('Hello Server!');
+    res.json({
+        name: 'Task API',
+        version: '1.0',
+        endpoints: ['/tasks'],
+    });
+});
+
+app.get('/health', (req, res) => {
+    res.json({status: 'OK' });
 });
 
 app.listen(PORT, () => {
