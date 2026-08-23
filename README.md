@@ -106,11 +106,38 @@ Returns a single task by id.
 **Response (404)**
 
 ```json
-{ "error": "Task 5 is not found" }
+{ "error": "Task 50 is not found" }
 ```
 
 **Example**
 
 ```bash
 curl http://localhost:3000/tasks/1
-curl http://localhost:3000/tasks/5
+curl http://localhost:3000/tasks/50
+
+### `POST /tasks`
+
+Creates a new task.
+
+**Request body**
+
+```json
+{ "title": "Buy milk" }
+```
+
+**Response (201)**
+
+```json
+{ "id": 4, "title": "Buy milk", "done": false }
+```
+
+**Response (400)**
+
+```json
+{ "error": "title is required and cannot be empty" }
+```
+
+**Example**
+
+```bash
+curl -i -X POST http://localhost:3000/tasks -H "Content-Type: application/json" -d "{\"title\":\"Buy milk\"}"
