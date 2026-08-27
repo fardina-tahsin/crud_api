@@ -68,15 +68,23 @@ curl http://localhost:3000/health
 
 ### `GET /tasks`
 
-Returns all tasks.
+Returns all tasks. Optional query parameters filter the list (the part after `?` - filters, not addresses).
+
+| Query | Example | Effect |
+|-------|---------|--------|
+| `done` | `?done=true` | Only finished tasks |
+| `done` | `?done=false` | Only open tasks |
+| `search` | `?search=milk` | Title contains the word (case-insensitive) |
+
+Filters can be combined: `?done=false&search=book`
 
 **Response**
 
 ```json
 [
-  { "id": 1, "title": "Buy groceries", "done": false },
-  { "id": 2, "title": "Walk the dog", "done": true },
-  { "id": 3, "title": "Read a book", "done": false }
+  { "id": 1, "title": "Buy a book", "done": true },
+  { "id": 2, "title": "Go on a morning walk", "done": true },
+  { "id": 3, "title": "Go to market", "done": false }
 ]
 ```
 
@@ -84,6 +92,44 @@ Returns all tasks.
 
 ```bash
 curl http://localhost:3000/tasks
+curl "http://localhost:3000/tasks?done=true"
+curl "http://localhost:3000/tasks?search=milk"
+```
+
+### `GET /stats`
+
+Returns computed counts for the current task list.
+
+**Response**
+
+```json
+{ "total": 7, "done": 3, "open": 4 }
+```
+
+**Example**
+
+```bash
+curl http://localhost:3000/stats
+```
+
+### `POST /reset`
+
+Restores the three seed example tasks. Useful for demos and testing.
+
+**Response (200)**
+
+```json
+[
+  { "id": 1, "title": "Buy a book", "done": true },
+  { "id": 2, "title": "Go on a morning walk", "done": true },
+  { "id": 3, "title": "Go to market", "done": false }
+]
+```
+
+**Example**
+
+```bash
+curl -X POST http://localhost:3000/reset
 ```
 
 ### `GET /tasks/:id`
